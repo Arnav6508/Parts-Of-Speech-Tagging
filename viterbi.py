@@ -11,7 +11,6 @@ def initialize(states, A, B, tag_counts, corpus, vocab):
 
     for i in range(tot_tags):
         best_probs[i,0] = math.log(A[s_idx,i]) + math.log(B[i,vocab[corpus[0]]])
-        # print(A[s_idx,i],B[i,vocab[corpus[0]]])
 
     return best_probs, best_paths
 
@@ -20,6 +19,9 @@ def forward_pass(A, B, corpus, vocab, best_probs, best_paths):
     tot_words = len(corpus)
 
     for i in range(1,tot_words):
+
+        if i % 5000 == 0: print("Words processed: {:>8}".format(i))
+
         # j = curr word tag
         for j in range(tot_tags):
 

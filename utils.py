@@ -1,7 +1,7 @@
 import numpy as np
+from collections import defaultdict
 import string 
 punct = set(string.punctuation)
-from collections import defaultdict
 
 noun_suffix = ["action", "age", "ance", "cy", "dom", "ee", "ence", "er", "hood", "ion", "ism", "ist", "ity", "ling", "ment", "ness", "or", "ry", "scape", "ship", "ty"]
 verb_suffix = ["ate", "ify", "ise", "ize"]
@@ -40,34 +40,19 @@ def assign_unk(word):
     return "--unk--"
 
 
-def get_word_tag_split(line, vocab):
+def get_word_tag_split(line, vocab = None):
     if not line.split(): return '--n--','--s--'
     else:
         word, tag = line.split()
-        if word not in vocab: word = assign_unk(word)
+        if vocab and word not in vocab: word = assign_unk(word)
         return word, tag
 
-def preprocess_test_data(vocab, data_fp):
-    prep = []
-    with open(data_fp, "r") as data_file:
-
-        for cnt, word in enumerate(data_file):
-
-            # End of sentence
-            if not word.split():
-                word = "--n--"
-                prep.append(word)
-                continue
-
-            # Handle unknown words
-            elif word.strip() not in vocab:
-                word = assign_unk(word)
-                prep.append(word)
-                continue
-
-            else: prep.append(word.strip())
-    
-    return prep
+def extract_words(corpus, vocab):
+    words = []
+    for line in corpus:
+        word, tag = get_word_tag_split(line, vocab)
+        words.append(word)
+    return words
     
 def create_vocab(voc_l):
     vocab = {}

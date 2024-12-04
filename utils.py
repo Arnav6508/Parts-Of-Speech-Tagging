@@ -7,6 +7,7 @@ noun_suffix = ["action", "age", "ance", "cy", "dom", "ee", "ence", "er", "hood",
 verb_suffix = ["ate", "ify", "ise", "ize"]
 adj_suffix = ["able", "ese", "ful", "i", "ian", "ible", "ic", "ish", "ive", "less", "ly", "ous"]
 adv_suffix = ["ward", "wards", "wise"]
+unknown_tokens = ["--unk_digit--", "--unk_punct--", "--unk_upper--", "--unk_noun--", "--unk_verb--", "--unk_adj--", "--unk_adv--", "--unk--"]
 
 def assign_unk(word):
     # Digits
@@ -47,16 +48,32 @@ def get_word_tag_split(line, vocab = None):
         if vocab and word not in vocab: word = assign_unk(word)
         return word, tag
 
-def extract_words(corpus, vocab):
+def extract_words(corpus, vocab = None):
     words = []
     for line in corpus:
         word, tag = get_word_tag_split(line, vocab)
         words.append(word)
     return words
     
-def create_vocab(voc_l):
+def create_vocab_from_list(voc_l):
     vocab = {}
     for i, word in enumerate(sorted(voc_l)): vocab[word] = i
+    return vocab
+
+def create_vocab_from_corpus(corpus):
+    words = extract_words(corpus)
+    freq_table = {}
+    for word in words:
+        freq_table[word] = freq_table.get(word,0)+1
+
+    voc_l = []
+    for key, value in freq_table.items():
+        if value>1: voc_l.append(key)
+
+    for unk in unknown_tokens:
+        voc_l.append(unk)
+    
+    vocab = create_vocab_from_list(voc_l)
     return vocab
 
 def create_dictionaries(training_corpus, vocab):

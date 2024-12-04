@@ -3,8 +3,12 @@ from load import load_data, load_testing_data
 from utils import create_dictionaries, create_transition_matrix, create_emission_matrix, compute_accuracy
 from viterbi import initialize, forward_pass, backward_pass
 
-def prepare_model(training_data_file, alpha = 0.001):
-    training_corpus, vocab = load_data(training_data_file)
+def prepare_model(training_file, alpha = 0.001):
+    training_corpus, vocab = load_data(training_file)
+
+    with open('./model_weights/vocab.pkl', 'wb') as file:
+        pickle.dump(vocab, file)
+    print('Vocab created and stored')
 
     ################## Dictionaries ##################
 
@@ -18,12 +22,10 @@ def prepare_model(training_data_file, alpha = 0.001):
     }
     with open('./model_weights/dictionaries.pkl', 'wb') as file:
         pickle.dump(dictionaries, file)
-
     print('Dictionaries created and stored')
 
     with open('./model_weights/states.pkl', 'wb') as file:
         pickle.dump(states, file)
-    
     print('States created and stored')
 
     
@@ -39,7 +41,6 @@ def prepare_model(training_data_file, alpha = 0.001):
 
     with open(f'./model_weights/matrices.pkl', 'wb') as file:
         pickle.dump(matrices, file)
-
     print('Matrices created and stored')
 
 

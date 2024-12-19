@@ -20,7 +20,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#built-with">Methodology</a></li>
       </ul>
     </li>
     <li>
@@ -49,9 +49,17 @@ In this project, we try to predic the parts of speech in a text file for all wor
 
 
 
-### Built With
+### Methodology
 
-Built with Hidden Markov Models and Viterbi Algorithm in Python.
+The project uses Hidden Markov Models (HMM) to model the relationship between words and their respective parts of speech. An HMM assumes that:
+
+- Word = Observable variables and POS Tags = Hidden States
+- The machine can only perceive the observable variable (words) and these variables only depend on the hidden states (POS Tags)
+- The current state only depends on the previous state
+- Transition probabilities determine the likelihood of moving from one POS tag to another.
+- Emission probabilities define the likelihood of a word being associated with a specific POS tag.
+
+To efficiently determine the most likely sequence of POS tags for a given sentence, the Viterbi algorithm is employed. It uses dynamic programming to compute the best sequence of states (tags) for the given observations (words) while considering transition and emission probabilities.
 
 
 <!-- GETTING STARTED -->

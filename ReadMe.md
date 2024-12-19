@@ -20,7 +20,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Methodology</a></li>
+        <li><a href="#methodology">Methodology</a></li>
       </ul>
     </li>
     <li>
